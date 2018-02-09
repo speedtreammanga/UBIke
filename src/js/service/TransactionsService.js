@@ -23,11 +23,15 @@ class TransactionsService {
                 return;
             }
             if (member.isBanned) {
-                reject('You have been banned due to a late bike return');
+                reject('You have been banned due to a late bike return.');
                 return;
             }
             if (MembersService.hasARentedBike(memberEmail)) {
                 reject('This member already has a bike!');
+                return;
+            }
+            if (RacksService.getBikeById(bikeId).isAlreadyRented()) {
+                reject('This bike is already rented');
                 return;
             }
 
@@ -50,10 +54,6 @@ class TransactionsService {
 
     getTransactions() {
         return [...this._transactions];
-    }
-
-    writeTransactionsToLocalStorage() {
-        localStorage.setItem(this.LOCALSTORAGE_KEY, JSON.stringify(this._transactions));
     }
 
     getNonReturnedBikeTransactions() {

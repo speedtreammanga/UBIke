@@ -24,19 +24,15 @@ class Component {
     setDomNode(domNode) { this.domNode = domNode; }
     
     _repaint() {
-        // console.log('componentUniqueID:', this._componentUniqueIdentifier);
         if (this._componentUniqueIdentifier !== undefined) {
             this.remove();
-            // console.log('updating component', this.domNode, this.nodeElement);
         } else {
             this._componentUniqueIdentifier = new ComponentId(`${this.domNode}${this.nodeElement}`);
         }
-        // console.log('component rendered');
         $(this.domNode).append(this.state[this.nodeElement]);
     }
 
     remove() {
-        // console.log('removing id', `#${this.nodeElement}`);
         $(`#${this.nodeElement}`).remove();
     }
 
