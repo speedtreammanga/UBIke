@@ -1,0 +1,24 @@
+{
+	"extends": "eslint:recommended",
+	"parser": "babel-eslint",
+	"globals": {
+		"Promise": 1
+	},
+	"settings": {
+		"react": {
+			"pragma": "h"
+		}
+	},
+	"env": {
+		"node": true,
+		"browser": true,
+		"es6": true
+	},
+	"rules": {
+		"no-console": 1,
+		"no-unused-vars": 1,
+		"no-empty": 0,
+		"semi": 2,
+		"keyword-spacing": 2
+	}
+}

@@ -1,0 +1,7 @@
+{
+    "javascript.validate.enable": false,
+    "flow.pathToFlow": "../node_modules/.bin/flow",
+    "flow.stopFlowOnExit": true,
+    "flow.enabled": true,
+    "flow.showStatus": true,
+}
