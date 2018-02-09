@@ -1,5 +1,8 @@
 /* @flow */
 
+/**
+ * User model
+ */
 class User {
     email;
     constructor(email) {

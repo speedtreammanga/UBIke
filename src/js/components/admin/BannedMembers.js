@@ -1,28 +1,42 @@
+import $ from 'jquery';
 import Component from '../../models/Component';
 import MembersService from '../../service/Members.service';
 import Member from '../../models/Member';
+import AllMembersModal from './AllMembersModal';
 
+/**
+ * Banned Members Component.
+ */
 class BannedMembers extends Component {
     bannedMembers: Member[] = [];
 
+    /**
+     * Init.
+     */
     constructor() {
         super('#admin-banned-members-section', 'adminBannedMembersContent');
         this._render();
     }
 
+    /**
+     * Set state of component.
+     */
     _render() {
         this.setState((prevState) => ({
             adminBannedMembersContent: this._buildBannedMembersContent()
-        }));
+        }), () => this._initJqueryTrigger());
     }
 
+    /**
+     * Return component HTML.
+     */
     _buildBannedMembersContent() {
         return `
             <div id="adminBannedMembersContent">
                 <h2>
                     Banned Members
                     <button 
-                        id="see-all-transaction-btn" 
+                        id="see-all-members-btn" 
                         class="ui tiny button red"
                     >
                         See All
@@ -49,8 +63,11 @@ class BannedMembers extends Component {
         `;
     }
 
+    /**
+     * Build members table `tr`s.
+     */
     _buildBannedMembersNodes() {
-        this.bannedMembers = MembersService.getBannedMembers()
+        this.bannedMembers = MembersService.getBannedMembers();
         return this.bannedMembers
             .reduce((nodesSum, m: Member) => {
                 nodesSum += `
@@ -64,6 +81,16 @@ class BannedMembers extends Component {
                 `;
                 return nodesSum;
             }, '');
+    }
+
+    /**
+     * Init jquery triggers.
+     */
+    _initJqueryTrigger() {
+        // on see all click...
+        $('#see-all-members-btn').click(() => {
+            const modal = new AllMembersModal('adminAllTransactions');
+        });
     }
 }
 

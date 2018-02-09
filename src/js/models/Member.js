@@ -1,6 +1,9 @@
 /* @flow */
 import User from './User';
 
+/**
+ * Member model.
+ */
 class Member extends User {
     fn: string;
     ln: string;
@@ -24,10 +27,16 @@ class Member extends User {
         this.isBanned = false;
     }
 
+    /**
+     * Returns if member is banned or not.
+     */
     get isBanned() {
         return this._isBanned;
     }
 
+    /**
+     * Sets whether member is banned.
+     */
     set isBanned(value) {
         this._isBanned = value;
     }

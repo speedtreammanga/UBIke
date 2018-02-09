@@ -2,6 +2,9 @@
 import $ from 'jquery';
 import Component from './Component';
 
+/**
+ * Basic Modal model.
+ */
 class Modal extends Component {
     _modalId: string;
     _cancelText: string;
@@ -20,10 +23,14 @@ class Modal extends Component {
             left: 0 !important;
             right: 0 !important;
         `,
-        modal: `top: 30% !important;`
+        modal: `
+            top: 150px !important;
+            width: auto !important;
+        `
     };
 
     /**
+     * Initializes Modal
      * @param {string} modalId set the ID attr of the modal.
      * @param {string} header title of the modal to be displayed.
      * @param {string} okText text for the ok button.
@@ -44,13 +51,18 @@ class Modal extends Component {
         this._cancelText = cancelText;
     }
 
+    /**
+     * Set the components of the modal.
+     * @param {string} components Components to be displayed in the modal
+     * @param {function} errCb Error callback
+     * @param {function} okCb Ok callback
+     * @param {function} cancelCb Cancel callback
+     */
     setModalContent(components: string, errCb, okCb, cancelCb) {
         try {
             this._errCallback = errCb ? errCb : this._errCallback;
             this._okCallback = okCb ? okCb : this._okCallback;
             this._cancelCallback = cancelCb ? cancelCb : this._cancelCallback;
-            console.log('ok callback instantiated');
-
             this._children = components;
             this._updateModalInnerComponents();
         } catch (err) {
@@ -58,12 +70,18 @@ class Modal extends Component {
         }
     }
 
+    /**
+     * Updates modal's content.
+     */
     _updateModalInnerComponents() {
         this.setState((prevState) => ({
             modal: this._getModal()
         }), () => this._initJqueryTriggers());
     }
 
+    /**
+     * Modal's html.
+     */
     _getModal() {
         return $(`
             <div id="modal">
@@ -82,19 +100,30 @@ class Modal extends Component {
         `);
     }
 
+    /**
+     * Dismiss modal.
+     */
     dismiss() {
         this.remove();
     }
 
+    /**
+     * Returns Modal's ID.
+     */
     get modalId(): string {
         return new String(this._modalId);
     }
 
+    /**
+     * Initializes jquery triggers.
+     */
     _initJqueryTriggers() {
+        // on OK button click...
         $(`#${this._modalId} button.ui.primary.button`).on('click', () => {
             this._okCallback();
         });
 
+        // on Cancel button click...
         $(`#${this._modalId} button.ui.cancel.button`).on('click', () => {
             this._cancelCallback();
         });

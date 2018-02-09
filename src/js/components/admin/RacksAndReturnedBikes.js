@@ -3,11 +3,17 @@ import Component from '../../models/Component';
 import Bike from '../../models/Bike';
 import RacksService from '../../service/Racks.service';
 
+/**
+ * Racks and Bikes component.
+ * Displays all racks and their bikes.
+ */
 class RacksAndReturnedBikes extends Component {
     rackNodes: string = '';
     bikes: Bike[] = [];
-    // _racksService: RacksService;
 
+    /**
+     * Init.
+     */
     constructor() {
         super('#racks-returned-bikes', 'racksAndReturnedBikesContent');
 
@@ -16,6 +22,9 @@ class RacksAndReturnedBikes extends Component {
         }));
     }
 
+    /**
+     * Build component HTML.
+     */
     _buildRacksAndReturnedBikes() {
         return `
             <div id="racksAndReturnedBikesContent">
@@ -28,13 +37,18 @@ class RacksAndReturnedBikes extends Component {
         `;
     }
 
+    /**
+     * Build racks and bikes.
+     */
     _fetchAvailableBikes = () => {
         this.rackNodes = '';
         const bikes = [];
 
+        // fetch non-rented bikes only...
         const availableBikes: {rack_id: number, bikes: Bike[]}[]
             = RacksService.getNonRentedBikesOnly();
 
+        // set `bikes` with the bikes of the racks...
         availableBikes.map((rack, index) => {
             bikes.push(...rack.bikes);
             this.rackNodes += this._buildRacksNodes(rack, index);
@@ -43,6 +57,9 @@ class RacksAndReturnedBikes extends Component {
         return this.rackNodes;
     }
 
+    /**
+     * Build rack html.
+     */
     _buildRacksNodes = (rack: {rack_id: number, bikes: Bike[]}, index: number) => {
         let racks: string = '';
         racks += `
@@ -64,6 +81,9 @@ class RacksAndReturnedBikes extends Component {
         return racks;
     }
 
+    /**
+     * Build bike table `tr`s.
+     */
     _buildBikeNodes = (rackBikes: Bike[], rackIndex: number) => {
         let bikes = '';
         rackBikes.forEach((bike: Bike, index: number) => {

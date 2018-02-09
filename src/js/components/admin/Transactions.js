@@ -3,19 +3,32 @@ import $ from 'jquery';
 import TransactionsService from './../../service/TransactionsService';
 import Component from './../../models/Component';
 import Transaction from './../../models/Transaction';
+import AllTransactionsModal from './AllTransactionsModal';
 
+/**
+ * Transactions component for admin panel.
+ */
 class Transactions extends Component {
     transactions: Transaction[] = [];
+
+    /**
+     * Init.
+     */
     constructor() {
         super('#admin-transactions-section', 'adminTransactionsContent');
         this._render();
     }
 
+    /**
+     * Sets state of component.
+     */
     _render() {
         this.setState((prevState) => ({
             adminTransactionsContent: this._buildTransactionsContent()
-        }));
+        }), () => this._initJqueryTrigger());
 
+        // render component each ms to update 
+        // countdown while transactions > 0...
         if (this.transactions.length > 0) {
             setTimeout(() => {
                 this._render();
@@ -23,17 +36,15 @@ class Transactions extends Component {
         }
     }
 
+    /**
+     * Returns the content of the component.
+     */
     _buildTransactionsContent() {
         return `
             <div id="adminTransactionsContent">
                 <h2>
                     Active Transactions List&nbsp;
-                    <button 
-                        id="see-all-transaction-btn" 
-                        class="ui tiny button green"
-                    >
-                        See All
-                    </button>
+                    ${this._buildSellAllButton()}
                 </h2>
                 <table
                     style="margin-bottom: 50px;"
@@ -54,6 +65,27 @@ class Transactions extends Component {
         `;
     }
 
+    /**
+     * Returns the See All button.
+     */
+    _buildSellAllButton() {
+        let content = '';
+        if (this.transactions.length == 0) {
+            content = `
+                <button 
+                    id="see-all-transaction-btn" 
+                    class="ui tiny button green"
+                >
+                    See All
+                </button>
+            `;
+        }
+        return content;
+    }
+
+    /**
+     * Builds rows of the table with transactions info.
+     */
     _buildTransactionsNodes() {
         this.transactions = TransactionsService.getNonReturnedBikeTransactions();
         return this.transactions
@@ -62,19 +94,22 @@ class Transactions extends Component {
                     <tr>
                         <td>${t.details.memberId}</td>
                         <td>${t.details.bikeId}</td>
-                        <td>${this._getTimeLeft(t.details.countdown)}</td>
+                        <td>${t._getTimeLeft(t.details.countdown)}</td>
                     </tr>
                 `;
                 return nodesSum;
             }, '');
     }
 
-    _getTimeLeft(countdown) {
-        const now = new Date().getTime();
-        const diff = countdown - now >= 0 
-            ? countdown - now
-            : 0;
-        return diff;
+    /**
+     * Init jquery triggers.
+     */
+    _initJqueryTrigger() {
+        // on see all button click...
+        $('#see-all-transaction-btn').click(() => {
+            // display new modal...
+            const modal = new AllTransactionsModal('adminAllTransactions');
+        });
     }
 }
 

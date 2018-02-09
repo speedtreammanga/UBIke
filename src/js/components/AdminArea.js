@@ -5,23 +5,32 @@ import Transactions from './admin/Transactions';
 import BannedMembers from './admin/BannedMembers';
 import RacksAndReturnedBikes from './admin/RacksAndReturnedBikes';
 
-class AdminArea extends Component {
+/**
+ * Admin Area Component.
+ */
+class AdminAreaComponent extends Component {
     rackNodes: string = '';
     bikes: Bike[] = [];
-    // _racksService: RacksService;
 
+    /**
+     * Init.
+     */
     constructor() {
         super('#app-content', 'AdminAreaContent');
 
         this.setState((prevState) => ({
             AdminAreaContent: this._buildAdminArea()
         }), () => {
-            const a = new Transactions();
-            const b = new BannedMembers();
-            const c = new RacksAndReturnedBikes();
+            // init all admin area only components...
+            new Transactions();
+            new BannedMembers();
+            new RacksAndReturnedBikes();
         });
     }
 
+    /**
+     * Returns Admin Area's HTML.
+     */
     _buildAdminArea() {
         return `
             <div id="AdminAreaContent">
@@ -35,4 +44,4 @@ class AdminArea extends Component {
         `;
     }
 }
-export default AdminArea;
+export default AdminAreaComponent;

@@ -1,11 +1,15 @@
 /* @flow */
 import Component from '../models/Component';
 
+/**
+ * Alert component.
+ */
 class Alert extends Component {
     _message: string;
     _outcome: string;
 
     /**
+     * Init.
      * @param {string} message text to be displayed in the alert box.
      * @param {string} outcome wheter the alert is 
      * `positive`, `info`, `warning`, or `negative`
@@ -23,6 +27,9 @@ class Alert extends Component {
         }, 2000);
     }
 
+    /**
+     * Alert's HTML.
+     */
     _render() {
         return `
             <div
@@ -37,6 +44,9 @@ class Alert extends Component {
         `;
     }
 
+    /**
+     * Remove alert on dismiss.
+     */
     dismiss() {
         this.remove();
     }
