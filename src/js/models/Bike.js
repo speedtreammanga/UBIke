@@ -34,9 +34,6 @@ class Bike {
     }
 
     isAlreadyRented() {
-        // const foundAtIndex = TransactionsService.transactions
-        //     .findIndex((t: Transaction) => t.details.bikeId === this.id);
-        // return foundAtIndex >= 0 ? true : false;
         return this.isRented;
     }
 

@@ -48,16 +48,12 @@ class TransactionsService {
             new Transaction(t.memberId, t.bikeId, t.countdown, t.late));
     }
 
-    get transactions(): Transaction[] {
-        return [...this._transactions];
-    }
-
     getTransactions() {
         return [...this._transactions];
     }
 
     writeTransactionsToLocalStorage() {
-        localStorage.setItem(this.LOCALSTORAGE_KEY, JSON.stringify(this.transactions));
+        localStorage.setItem(this.LOCALSTORAGE_KEY, JSON.stringify(this._transactions));
     }
 
     getNonReturnedBikeTransactions() {

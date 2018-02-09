@@ -29,7 +29,7 @@ class MembersService {
     }
 
     hasARentedBike(email: string) {
-        const transaction = TransactionsService.transactions
+        const transaction = TransactionsService.getTransactions()
             .find((t: Transaction) => t.details.memberId === this.getMemberId(email) && t.details.returned === false);
         return transaction;
     }
